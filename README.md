@@ -11,3 +11,6 @@ Task:
 8. Verifying all logged in users
 9. Clearing VTY session
 10. Creation of VLANs on Switch
+
+
+![lab1_Basic_switch_configuration](https://user-images.githubusercontent.com/55639146/162080438-504e98fc-60fb-48f8-80af-acc459426f94.png)

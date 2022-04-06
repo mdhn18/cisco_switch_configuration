@@ -1,0 +1,113 @@
+1. Setting up Hostname
+Switch>en
+Switch#confi t
+Switch(config)#hostname SW1
+
+
+2. Enable Password
+SW1(config)#enable password samir
+SW1#show running-config | include enable
+#### it's can show your password####
+
+SW1(config)#enable secret purno
+SW1#show running-config | include enable
+enable secret 5 $1$mERr$EYFSF4uFG6a53FPclwOVM.
+enable password samir
+
+3. Setting IP Address
+SW1#show ip interface brief
+SW1#config t
+Enter configuration commands, one per line.  End with CNTL/Z.
+SW1(config)#interface vlan1
+SW1(config-if)#ip add 192.168.1.1 255.255.255.0
+SW1(config-if)#no shutd
+SW1(config-if)#no shutdown
+
+
+4. Default Gateway
+SW1(config)#no ip routing
+SW1(config)#ip default-gateway 192.168.1.100
+SW1#show ip route
+
+5. Making a Switch as Telnet
+
+SW1#config t
+Enter configuration commands, one per line.  End with CNTL/Z.
+SW1(config)#int range fa0/10, fa0/12, fa0/13, fa0/15
+SW1(config-if-range)#no sh
+SW1(config-if-range)#no shutdown
+SW1#ping 192.168.1.3
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.1.3, timeout is 2 seconds:
+.!!!!
+Success rate is 80 percent (4/5), round-trip min/avg/max = 0/1/4 ms
+
+SW1#ping 192.168.1.3
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.1.3, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 0/0/4 ms
+
+
+SW1#config t
+Enter configuration commands, one per line.  End with CNTL/Z.
+SW1(config)#line vty 0 7
+SW1(config-line)#pass
+SW1(config-line)#password samir
+SW1(config-line)#login
+SW1(config-line)#end
+SW1#
+%SYS-5-CONFIG_I: Configured from console by console
+
+then try from other switch login
+
+7. Telnet test
+8. Verifying all logged in users
+
+SW3#
+SW3#telnet 192.168.1.1
+Trying 192.168.1.1 ...Open
+
+
+User Access Verification
+
+Password: 
+SW1>en
+Password: 
+SW1#
+SW1#
+SW1#
+
+SW1#show users
+    Line       User       Host(s)              Idle       Location
+*  0 con 0                idle                 00:00:00 
+   3 vty 0                idle                 00:00:27 192.168.1.3
+   4 vty 1                idle                 00:00:06 192.168.1.2
+
+
+9. Clearing VTY session
+SW1#clear line vty 1
+
+10. Creation of VLANs on Switch
+SW1#show vlan
+
+SW1(config)#vlan 56
+SW1(config-vlan)#na
+SW1(config-vlan)#name samir-test-vlan
+SW1(config-vlan)#end
+SW1#show vlan
+
+or
+
+SW1#show vlan id 56
+
+
+SW1(config)#int fa0/21
+SW1(config-if)#switchpo
+SW1(config-if)#switchport mode acc
+SW1(config-if)#switchport mode access
+SW1(config-if)#switchport access vlan 56
+SW1#show running-config fastEthernet0/21
+SW1#show interface switchport
